@@ -1,0 +1,40 @@
+.self-messages h4,.self-messages p,.others-messages h4,.others-messages p{
+    color:white;
+    font-weight: 400;
+    margin:0;
+    padding:0;
+}
+.self-messages{
+    display:flex;
+    flex-direction: column;
+    margin:1%;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.self-messages h4{
+    width:max-content;
+    max-width:75%;
+    background:#2e2e2e;
+    padding:2%;
+    border-radius: 5px 5px 0 5px;
+    text-align: left;
+}
+.others-messages{
+    display:flex;
+    flex-direction: column;
+    margin:1%;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.others-messages h4{
+    width:max-content;
+    max-width:75%;
+    background: #2e2e2e;;
+    padding:2%;
+    border-radius: 5px 5px 5px 0;
+    text-align: left;
+}
+.others-messages p,.self-messages p{
+    font-size:0.75rem;
+    margin-bottom: 3px;
+}
