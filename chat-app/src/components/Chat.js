@@ -17,7 +17,7 @@ export default function Chat({ location }) {
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState("");
 
-  const ENDPOINT = "localhost:3001";
+  const ENDPOINT = "https://react-ghost-chat.herokuapp.com/";
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
