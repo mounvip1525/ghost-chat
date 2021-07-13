@@ -1,0 +1,104 @@
+.wrapper-home{
+    background:#212121;
+    height:100vh;
+}
+.nav{
+    background:black;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0% 3%;
+}
+.nav a {
+    text-decoration: none;
+}
+.nav h2,.nav a h3{
+    color:white;
+    font-weight: 400;
+}
+.main-home{
+    display:flex;
+    justify-content: space-around;
+    text-align: center;
+}
+.text{
+    width:50%;
+}
+.text h1,.text p{
+    color:white;
+}
+.text h1{
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size:3rem
+}
+.text p{
+    width:70%;
+    text-align: left;
+    margin:-3% 15%;
+}
+.text img{
+    height:18rem;
+    width:18rem;
+    margin-top:5%;
+}
+.hello{
+    width:50%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.details{
+    margin-top:15%;
+    background:black;
+    width:65%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    padding:3% 0 8%;
+}
+.details h3{
+    color:white;
+    font-weight: 500;
+    font-size:1.5rem
+}
+.details div{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding:2%;
+    width:70%;
+}
+.details div label{
+    color:white;
+    font-size: 0.9rem;
+    margin-bottom:3px;
+}
+.details div input{
+    height:2rem;
+    width:100%;
+    outline:none;
+    border:none;
+    border-radius: 5px;
+}
+.details .btn-container{
+    display:flex;
+    justify-content: center !important;
+    align-items: center;
+}
+.details .btn-container a{
+    width:100%;
+}
+.join-btn{
+    background:#212121;
+    color:white;
+    cursor:pointer;
+    border:none;
+    outline:none;
+    border-radius: 5px;
+    height:3rem;
+    width:80%;
+    margin-top:15px;
+}
