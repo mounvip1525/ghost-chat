@@ -26,11 +26,11 @@ export default function Home() {
             <div className="details">
               <h3>JOIN CHAT</h3>
               <div>
-                <label for="name">NICKNAME</label>
+                <label htmlFor="name">NICKNAME</label>
                 <input type="text" id="name" name="name" placeholder="Dread Pirate" onChange={(e)=>setName(e.target.value)}/>
               </div>
               <div>
-                <label for="room">ROOM NAME</label>
+                <label htmlFor="room">ROOM NAME</label>
                 <input type="text" id="room" name="room" placeholder="Knight ghost" onChange={(e)=>setRoom(e.target.value)}/>
               </div>
               <div className="btn-container">
