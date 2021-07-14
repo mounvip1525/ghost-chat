@@ -7,6 +7,7 @@ import "./Chat.css";
 import pic from "../ghost.png";
 import send from "../send.png";
 import Message from "./Message/Message";
+import ReactFileReader from 'react-file-reader';
 
 let socket;
 
@@ -16,8 +17,10 @@ export default function Chat({ location }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState("");
+  const [ typing , setTyping ] = useState(false);
+  const [ file , setFile ] = useState();
 
-  const ENDPOINT = "https://react-ghost-chat.herokuapp.com/";
+  const ENDPOINT = "localhost:3001";
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -46,23 +49,56 @@ export default function Chat({ location }) {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, []);
+  },[]);
+
+    useEffect(()=>{
+        socket.on("typing",(message)=>{
+            setTyping(true);
+            console.log("Typing from server",message);
+        })
+    },[])
 
   const sendMessage = (e) => {
     e.preventDefault();
     if (message) {
-      socket.emit("sendMessage", message, () => setMessage(""));
+      // console.log(message)
+      socket.emit("sendMessage", message,false, () => setMessage(""));
     }
   };
 
-  // console.log(messages,message)
-  console.log(users);
+  const handleChange = files => {
+    setFile(files.base64);
+    console.log(files,file);
+  }
 
-//   const onlineUsers = () => (
-//     // <div className="users">
-//     //   {users && users.map(({ name },index) => <p key={index}>{name} {index >= users.length && <span>,</span>}</p>)}
-//     // </div>
-//   );
+  const [baseImage, setBaseImage] = useState("");
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    // setBaseImage(base64);
+    if(base64){
+      socket.emit("sendMessage", base64,true, () => setBaseImage(""));
+    }
+    
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+
 
   return (
     <div className="main-chat">
@@ -90,11 +126,22 @@ export default function Chat({ location }) {
             </div>
           ))}
         </ScrollToBottom>
+        <input
+        type="file"
+        onChange={(e) => {
+          uploadImage(e);
+        }}
+        id="imgBox"
+        className={{display:"none"}}
+      />
         <div className="input-box">
+          <button className="photo-btn" onClick={()=>document.getElementById("imgBox").click()}>+</button>
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
+            // onKeyPress={(e)=>(e.key !== "Enter" ? startTyping(e) : null)}
+            // onKeyUp={(e)=>stopTyping(e)}
           />
           <button onClick={(e) => sendMessage(e)}>
             <img src={send} alt="send" />

@@ -37,4 +37,21 @@
 .others-messages p,.self-messages p{
     font-size:0.75rem;
     margin-bottom: 3px;
+    margin-left:3px;
+}
+.self-messages p{
+    margin-right:3px;
+}
+.chat-img{
+    height:15rem;
+    width:15rem;
+    object-fit: cover;
+    padding:1%;
+    background:#2e2e2e;
+}
+.self-messages .chat-img{
+    border-radius: 10px 10px 0 10px;
+}
+.others-messages .chat-img{
+    border-radius: 10px 10px 10px 0;
 }

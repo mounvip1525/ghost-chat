@@ -86,3 +86,8 @@
 .users{
     display:flex;
 }
+.input-box .photo-btn{
+    background:none !important;
+    color:#179BF3 !important;
+    font-size:2rem;
+}

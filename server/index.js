@@ -8,6 +8,7 @@ const router = require('./routes');
 const { addUser , removeUser , getUser , getUsersInRoom } = require('./users')
 
 const app = express()
+app.use(cors())
 const server = http.createServer(app);
 // app.use(cors()); //for intercommunication between urls
 
@@ -29,7 +30,6 @@ io.on("connection",(socket)=>{
         if(error) return callback(error);
 
         socket.emit('message',{ user: 'Team GC', text: `Hey! ${user.name}, Welcome to the room ${user.room}`});
-        socket.emit('message',{ user: 'Team GC', text: `Hey! ${user.name}, Welcome to the r ${user.room}`});
 
         socket.broadcast.to(user.room).emit('message',{ user:'admin',text:`${user.name} has joined!`});
 
@@ -39,10 +39,18 @@ io.on("connection",(socket)=>{
 
         callback();
     })
-    socket.on('sendMessage',(message,callback)=>{
+    socket.on('sendMessage',(message,isImage,callback)=>{
         const user = getUser(socket.id);
         
-        io.to(user.room).emit('message',{ user:user.name,text:message});
+        io.to(user.room).emit('message',{ user:user.name,text:message,isImage:isImage});
+        io.to(user.room).emit('roomData',{ room:user.room,users:getUsersInRoom(user.room)});
+        
+        callback();
+    })
+    socket.on('image',(image,callback)=>{
+        const user = getUser(socket.id);
+
+        io.to(user.room).emit('image',{ user:user.name,image:image});
         io.to(user.room).emit('roomData',{ room:user.room,users:getUsersInRoom(user.room)});
         
         callback();
