@@ -45,6 +45,12 @@ export default function AlertDialog(props) {
       handleClose();
   }
 
+  const closeModal = () => {
+    setImgSrc("");
+    setCam(true);
+    handleClose();
+  }
+
   return (
     <div className="cam-cont">
       {/* <Button> */}
@@ -52,14 +58,14 @@ export default function AlertDialog(props) {
       {/* </Button> */}
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
             <div style={{display:"flex",justifyContent:"space-between",width:"100%"}}>
                 Take a photo! 
-                <button onClick={()=>{handleClose()}} style={{background:"transparent",border:"none",outline:"none",cursor:"pointer"}}>< CloseIcon /></button>
+                <button onClick={closeModal} style={{background:"transparent",border:"none",outline:"none",cursor:"pointer"}}>< CloseIcon /></button>
             </div>
         </DialogTitle>
         <DialogContent>
@@ -76,6 +82,7 @@ export default function AlertDialog(props) {
             imgSrc && (
                 <img
                 src={imgSrc}
+                alt='img'
                 />
             )}
             <div className="btn-cont">
@@ -86,7 +93,7 @@ export default function AlertDialog(props) {
         </DialogContent>
         <DialogActions>
                 {imgSrc &&           
-                <Button onClick={handleSend} color="primary" autoFocus>
+                <Button onClick={handleSend} color="default" autoFocus>
                     Send
                 </Button>
                 }

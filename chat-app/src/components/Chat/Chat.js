@@ -14,13 +14,13 @@ let socket;
 export default function Chat({ location }) {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("messages")) || []);
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState("");
   const [ typing , setTyping ] = useState([]);
-  const [ file , setFile ] = useState();
 
-  const ENDPOINT = "localhost:3001";
+  const ENDPOINT = "https://react-ghost-chat.herokuapp.com/";
+
   var timer;
   var timeout = 3000;
 
@@ -38,10 +38,11 @@ export default function Chat({ location }) {
     socket.emit("join", { name, room }, () => {});
 
     return () => {
+      localStorage.removeItem("messages");
       socket.emit("disconnect");
       socket.off();
     };
-  }, [ENDPOINT, location.search]);
+  }, [location.search]);
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -62,7 +63,7 @@ export default function Chat({ location }) {
       var deet = typing.filter(t=>t!== data.text);
       setTyping(deet);
     })
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const sendMessage = (e) => {
@@ -119,6 +120,11 @@ export default function Chat({ location }) {
         }, timeout);
     }
   }
+  useEffect(()=>{
+    // console.log("in this",messages,message);
+    localStorage.setItem('messages',JSON.stringify(messages))
+  },[messages])
+  
 
   return (
     <>

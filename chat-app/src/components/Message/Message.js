@@ -14,7 +14,7 @@ export default function Message({message : {user , text,isImage},name}) {
             <div className="self-messages">
                 <p>You</p>
                 {isImage ? 
-                    <img src={text} alt="image" className="chat-img" /> 
+                    <img src={text} alt="img" className="chat-img" /> 
                     : 
                     <h4>{ReactEmoji.emojify(text)}</h4>
                 }
@@ -25,7 +25,7 @@ export default function Message({message : {user , text,isImage},name}) {
             <div className="others-messages">
                 <p>{user}</p>
                 {isImage ? 
-                    <img src={text} alt="image" className="chat-img" />
+                    <img src={text} alt="img" className="chat-img" />
                     : <h4>{ReactEmoji.emojify(text)}</h4>
                 }
             </div>

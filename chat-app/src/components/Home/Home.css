@@ -103,3 +103,44 @@
     width:80%;
     margin-top:15px;
 }
+@media screen and (max-width:1000px){
+    .main-home{
+        flex-direction: column;
+        background:#212121;
+    }
+    .text{
+        margin:auto;
+    }
+    .text p{
+        text-align: center;
+    }
+    .hello{
+        margin:auto;
+        margin-top:-15%;
+        width:60%;
+    }
+}
+@media screen and (max-width:700px){
+    .hello{
+        width:80%;
+    }
+}
+@media screen and (max-width:550px){
+    .details{
+        width:90%;
+    }
+    .hello{
+        margin-top:-20%;
+    }
+    .text{
+        width:100%;
+    }
+    .text h1{
+        font-size:2rem;
+    }
+    .text img{
+        height:10rem;
+        width:10rem;
+        /* margin-top:5%; */
+    }
+}
