@@ -111,7 +111,7 @@ export default function Chat({ location }) {
   return (
     <>
           {/* <ImgCapture /> */}
-    <div className="main-chat">
+    <div className="main-chat custom-scrollbar">
       <div className="title">
         <h2>
           <Link to="/">GHOST CHAT</Link>
