@@ -1,7 +1,7 @@
 import './App.css';
 import { Route , Switch } from "react-router-dom"
-import  Home from './components/Home';
-import  Chat from './components/Chat';
+import  Home from './components/Home/Home';
+import  Chat from './components/Chat/Chat';
 // import socketIO from "socket.io-client"
 
 // const ENDPOINT = "http://localhost:3001/";

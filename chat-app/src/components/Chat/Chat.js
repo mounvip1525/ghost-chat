@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
-import pic from "../ghost.png";
-import send from "../send.png";
-import Message from "./Message/Message";
-import ReactFileReader from 'react-file-reader';
+import pic from "../../ghost.png";
+import send from "../../send.png";
+import Message from "../Message/Message";
+import ImgCapture from "../ImgCapture/ImgCapture";
+import AlertDialog from "../Extra";
 
 let socket;
 
@@ -98,9 +99,18 @@ export default function Chat({ location }) {
     });
   };
 
+  const sendCapturedPhoto = (data) => {
+    // console.log(data);
+    if(data){
+      socket.emit("sendMessage", data,true, () => console.log("Captured Image sent"));
+    }
+  }
+
 
 
   return (
+    <>
+          {/* <ImgCapture /> */}
     <div className="main-chat">
       <div className="title">
         <h2>
@@ -119,6 +129,14 @@ export default function Chat({ location }) {
             </div>
           </div>
         </div>
+        <input
+        type="file"
+        onChange={(e) => {
+          uploadImage(e);
+        }}
+        id="imgBox"
+        style={{display:"none"}}
+      />
         <ScrollToBottom className="all-messages">
           {messages.map((message, index) => (
             <div key={index}>
@@ -126,14 +144,6 @@ export default function Chat({ location }) {
             </div>
           ))}
         </ScrollToBottom>
-        <input
-        type="file"
-        onChange={(e) => {
-          uploadImage(e);
-        }}
-        id="imgBox"
-        className={{display:"none"}}
-      />
         <div className="input-box">
           <button className="photo-btn" onClick={()=>document.getElementById("imgBox").click()}>+</button>
           <input
@@ -143,11 +153,16 @@ export default function Chat({ location }) {
             // onKeyPress={(e)=>(e.key !== "Enter" ? startTyping(e) : null)}
             // onKeyUp={(e)=>stopTyping(e)}
           />
-          <button onClick={(e) => sendMessage(e)}>
+          <div className="send">
+            {message ?         
+            <button onClick={(e) => sendMessage(e)}>
             <img src={send} alt="send" />
-          </button>
+          </button> : 
+          <div className="send-cam"><AlertDialog send={sendCapturedPhoto}/></div>}
+          </div>
         </div>
       </div>
     </div>
+    </>
   );
 }

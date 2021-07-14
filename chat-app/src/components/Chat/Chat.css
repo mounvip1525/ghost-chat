@@ -37,11 +37,13 @@
     height:10%;
     background:black;
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding:0 2%;
+    box-sizing: border-box;
 }
 .input-box input{
-    width:80%;
+    width:75%;
     height:2rem;
     border-radius: 15px;
     border:none;
@@ -56,7 +58,6 @@
     border-radius: 50%;
     padding:0.45rem;
     cursor:pointer;
-    margin-left:2%;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -90,4 +91,12 @@
     background:none !important;
     color:#179BF3 !important;
     font-size:2rem;
+    width:5%;
+}
+.send{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:10%;
+
 }

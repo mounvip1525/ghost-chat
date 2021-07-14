@@ -1,6 +1,6 @@
 import React , {useState} from 'react'
 import './Home.css'
-import pic from '../ghost.png';
+import pic from '../../ghost.png';
 import { Link } from 'react-router-dom'
 
 export default function Home() {

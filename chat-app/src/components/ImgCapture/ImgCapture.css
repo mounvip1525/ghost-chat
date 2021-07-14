@@ -1,0 +1,51 @@
+.video-container{
+    background:black;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 3%;
+}
+.btn-cont{
+    display:flex;
+    justify-content: center;
+    width:100%;
+}
+.btn-cont .capture{
+    border-radius: 50%;
+    /* background:#179BF3; */
+    color:white;
+    border:none;
+    border:2px solid white;
+    outline:none;
+    cursor:pointer;
+    padding:0.3rem 0.3rem;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:-8%;
+}
+.capture div{
+    height:1.5rem;
+    width:1.5rem;
+    background:white;
+    border-radius: 50%;
+}
+.btn-cont .retake{
+    background:none;
+    color:white;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    padding:0.5rem;
+    margin-top:2%;
+}
+.icon{
+    color:#179bf3
+}
+.cam-cont{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* margin:0 2% !important; */
+}
