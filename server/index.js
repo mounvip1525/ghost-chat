@@ -55,6 +55,15 @@ io.on("connection",(socket)=>{
         
         callback();
     })
+    socket.on('typing',()=>{
+        const user = getUser(socket.id);
+        socket.broadcast.to(user.room).emit('typing',{ user:'',text:`${user.name} is typing... `});
+    })
+    socket.on("not typing",()=>{
+        const user = getUser(socket.id);
+        socket.broadcast.to(user.room).emit('not typing',{ user:'',text:`${user.name} is typing... `});
+
+    })
     socket.on("disconnect",()=>{
         const user = removeUser(socket.id);
         if(user){

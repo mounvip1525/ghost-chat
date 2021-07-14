@@ -13,14 +13,21 @@ export default function Message({message : {user , text,isImage},name}) {
         (
             <div className="self-messages">
                 <p>You</p>
-                {isImage ? <img src={text} alt="image" className="chat-img" /> : <h4>{ReactEmoji.emojify(text)}</h4>}
+                {isImage ? 
+                    <img src={text} alt="image" className="chat-img" /> 
+                    : 
+                    <h4>{ReactEmoji.emojify(text)}</h4>
+                }
 
             </div>
         ) : 
         (
             <div className="others-messages">
                 <p>{user}</p>
-                {isImage ? <img src={text} alt="image" className="chat-img" /> : <h4>{ReactEmoji.emojify(text)}</h4>}
+                {isImage ? 
+                    <img src={text} alt="image" className="chat-img" />
+                    : <h4>{ReactEmoji.emojify(text)}</h4>
+                }
             </div>
         )
     )

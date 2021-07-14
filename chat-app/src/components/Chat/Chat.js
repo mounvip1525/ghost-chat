@@ -7,8 +7,7 @@ import "./Chat.css";
 import pic from "../../ghost.png";
 import send from "../../send.png";
 import Message from "../Message/Message";
-import ImgCapture from "../ImgCapture/ImgCapture";
-import AlertDialog from "../Extra";
+import ImgCapture from '../ImgCapture/ImgCapture';
 
 let socket;
 
@@ -18,10 +17,12 @@ export default function Chat({ location }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState("");
-  const [ typing , setTyping ] = useState(false);
+  const [ typing , setTyping ] = useState([]);
   const [ file , setFile ] = useState();
 
   const ENDPOINT = "localhost:3001";
+  var timer;
+  var timeout = 3000;
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -50,14 +51,19 @@ export default function Chat({ location }) {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  },[]);
 
-    useEffect(()=>{
-        socket.on("typing",(message)=>{
-            setTyping(true);
-            console.log("Typing from server",message);
-        })
-    },[])
+    socket.on("typing",(data)=>{
+      setTyping(Array.from(new Set([...typing,data])));
+      // console.log("typing",typing,data.text);
+    })
+
+    socket.on("not typing",(data)=>{
+      // console.log("not typing",data)
+      var deet = typing.filter(t=>t!== data.text);
+      setTyping(deet);
+    })
+    
+  },[]);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -67,19 +73,12 @@ export default function Chat({ location }) {
     }
   };
 
-  const handleChange = files => {
-    setFile(files.base64);
-    console.log(files,file);
-  }
-
-  const [baseImage, setBaseImage] = useState("");
-
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
     // setBaseImage(base64);
     if(base64){
-      socket.emit("sendMessage", base64,true, () => setBaseImage(""));
+      socket.emit("sendMessage", base64,true, () => console.log("Image sent"));
     }
     
   };
@@ -106,11 +105,23 @@ export default function Chat({ location }) {
     }
   }
 
+  const startTyping = (e) => {
+    // console.log("User is typing");
+    socket.emit("typing");
+  }
 
+  const stopTyping = (e) => {
+    clearTimeout(timer);
+    if (message) {
+        timer = setTimeout(function(){
+            // console.log("user stopped");
+            socket.emit("not typing");
+        }, timeout);
+    }
+  }
 
   return (
     <>
-          {/* <ImgCapture /> */}
     <div className="main-chat custom-scrollbar">
       <div className="title">
         <h2>
@@ -125,12 +136,16 @@ export default function Chat({ location }) {
               <h3>{room}</h3>
             </div>
             <div className="users">
-                {users && users.map(({ name },index) => <p key={index}>{name} {index < users.length-1 && <span>,&nbsp;</span>}</p>)}
+                {/* {users && users.map(({ name },index) => <p key={index}>{name} {index < users.length-1 && <span>,&nbsp;</span>}</p>)} */}
+                {typing.length>0 ? typing.map(({text},index)=> <p key={index}>{text}</p>):
+                           (users) && users.map(({ name },index) => <p key={index}>{name} {index < users.length-1 && <span>,&nbsp;</span>}</p>)
+                }
             </div>
           </div>
         </div>
         <input
         type="file"
+        accept="image/*"
         onChange={(e) => {
           uploadImage(e);
         }}
@@ -149,16 +164,16 @@ export default function Chat({ location }) {
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
-            // onKeyPress={(e)=>(e.key !== "Enter" ? startTyping(e) : null)}
-            // onKeyUp={(e)=>stopTyping(e)}
+            onKeyPress={(e) => (e.key === "Enter" ? sendMessage(e) : startTyping(e))}
+            // onKeyPress={(e)=>(e.key !== "Enter" ?  : null)}
+            onKeyUp={(e)=>stopTyping(e)}
           />
           <div className="send">
             {message ?         
             <button onClick={(e) => sendMessage(e)}>
             <img src={send} alt="send" />
           </button> : 
-          <div className="send-cam"><AlertDialog send={sendCapturedPhoto}/></div>}
+          <div className="send-cam"><ImgCapture send={sendCapturedPhoto}/></div>}
           </div>
         </div>
       </div>
